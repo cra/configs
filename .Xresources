@@ -1,0 +1,24 @@
+!Xft.dpi: 96
+!URxvt*font: -*-terminus-medium-*-*-*-24-*-*-*-*-*-iso10646-1
+URxvt*font: xft:terminus:size=14
+!xterm*VT100.utf8Fonts.font: -*-terminus-medium-*-*-*-17-120-100-100-*-*-iso10646-1
+xterm*font: -*-terminus-medium-*-*-*-16-*-*-*-*-*-iso10646-1
+URxvt*saveLines: 2048
+!URxvt*scrollBar_right: on
+URxvt*scrollBar: false
+URxvt.perl-ext-common: default,matcher
+URxvt.urlLauncher: firefox
+URxvt.matcher.button: 2
+URxvt.keysym.C-g: perl:matcher
+URxvt.matcher.pattern.1: \\bwww\\.[\\w-]\\[\\w./?&@#-]*[\\w/-]
+Xcursor.theme: Grounation
+Xcursor.size: 32
+gnuplot*persist: on
+
+! Xft settings ---------------------------------------------------------------
+!
+Xft.dpi:        120
+Xft.antialias:  true
+Xft.rgba:       rgb
+Xft.hinting:    true
+Xft.hintstyle:  hintslight
