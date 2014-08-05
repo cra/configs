@@ -1,0 +1,15 @@
+xset r rate 170 45
+xset b off
+xset fp+ /usr/share/fonts/local
+xset fp+ /usr/share/fonts/TTF
+xset fp rehash
+
+xrdb -merge .Xresources
+xrdb -merge .Xterm-colors
+
+#xbindkeys
+#xmodmap .xmodmap
+
+setxkbmap dvp,us,se_sv_dvorak,ru
+
+urxvtd -q -f -o

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+. ~/.xinitrc.common
+#hsetroot -fill ~/.
+hsetroot -fill .wallpaper-emma-RH.jpg
+
+openbox

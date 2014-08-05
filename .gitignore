@@ -1,0 +1,14 @@
+*
+!.gitignore
+!.xmodmap
+!.xinitrc.common
+!.xinitrc
+!.xinitrc2
+!.bashrc
+!.bash_profile
+!.mplayer
+!.stalontrayrc
+!.pylintrc
+!.tmux.conf
+!.vimrc
+!.xbindkeysrc.scm
