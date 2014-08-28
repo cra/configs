@@ -159,3 +159,13 @@ alias recoursive_bzip_all="find . -type f -exec bzip2 {} +"
 alias py="ipython2"
 
 alias clonev="python2 /usr/lib/python2.7/site-packages/clonevirtualenv.py"
+
+function bunzip2_all_the_things() {
+    for file in "$@"
+    do
+        echo ${file}
+        bunzip2 ${file}
+    done
+}
+
+alias telegram="telegram -N"

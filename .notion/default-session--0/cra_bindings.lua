@@ -87,6 +87,9 @@ defbindings("WMPlex", {
 
 	bdoc("alsamixer in urxvtc"),
 	kpress(ALTMETA.."Shift+V", "ioncore.exec_on(_, 'urxvtc -e alsamixer')"),
+
+	bdoc("wifi menu"),
+	kpress(ALTMETA.."Shift+W", "ioncore.exec_on(_, 'urxvtc -e sudo wifi-menu')"),
 })
 
 defbindings("WFrame", {
