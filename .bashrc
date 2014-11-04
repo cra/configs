@@ -96,6 +96,8 @@ alias um='udiskie-umount'
 alias ffmpeg_apply="echo ffmpeg -threads 4 -i /media/FLOPPY/tmp/out-3.ogv -i /home/cra/starting_srazu.wav -f mpegts -vb 3000k /home/cra/newmovie-3000k.mpg"
 alias ffmpeg_crop="echo ffmpeg -threads auto -i /media/FLOPPY/tmp/ZOOM0088.M4A -ss 00:00:18 /home/cra/starting_srazu.wav"
 
+alias pwsafe="pwsafe -s Both"
+
 # ssh
 alias k="ssh -Y kappa"
 alias t="ssh -Y triolith"
@@ -168,4 +170,29 @@ function bunzip2_all_the_things() {
     done
 }
 
+function dp() {
+    dropbox puburl $1 | parcellite -c
+}
+
 alias telegram="telegram -N"
+alias xflux-odintsovo="xflux -l 55.6806789 -g 37.2818590"
+alias xflux-linkoping="xflux -l 58.4167 -g 15.6167"
+
+alias idag=`date '+%Y-%m-%d'`
+
+function _fail() {
+    echo "Sigh..."
+    idag=`date '+%Y-%m-%d'`
+    link="http://www.reddit.com/message/compose/?to=badgebot"
+    firefox "${link}&subject=${1}&message=${idag}"
+}
+
+function fap_fail() {
+    _fail nofap
+}
+
+function porn_fail() {
+    _fail pornfree
+}
+
+alias wifi-no-powersave="sudo iwconfig wlp2s0 power off"

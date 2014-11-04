@@ -14,6 +14,12 @@
 ;; (xbindkey-function key function-name-or-lambda-function)
 ;; (xbindkey-function '(modifier* key) function-name-or-lambda-function)
 
+(xbindkey '(Mod2 XF86Mail)
+   "xkb-switch -s ru")
+
+(xbindkey '(Mod2 XF86HomePage)
+   "xkb-switch -s dvp")
+
 (xbindkey '(Control alt d)
    "xkb-switch -s dvp")
 
@@ -39,6 +45,11 @@
 
 (xbindkey '(XF86MonBrightnessUp)
    "/usr/bin/asus-screen-brightness up")
+
+
+;; functional-keyz
+(xbindkey '(XF86Calculator)
+   "urxvtc -e bc")
 
 ;; sound
 (xbindkey '(XF86AudioMute)
