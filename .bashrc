@@ -8,6 +8,31 @@
 alias ls='ls --color=auto'
 PS1='[\u@\h]::[\[\033[01;32m\]\D{%H:%M:%S %b%d}\[\033[00m\]] \w\n $ '
 
+export PAPER_SRC=/home/cra/inbox/paper-pottest
+
+function write_paper() {
+    TMP=/tmp/paper #TMP=`mktemp -d`
+    if [ -d ${TMP} ]
+    then
+        echo "${TMP} already exists. Just cd'ing there"
+        cd ${TMP}
+    else
+        mkdir ${TMP}
+        cd ${TMP}
+        cmake ${PAPER_SRC}
+        make
+        touch *.tex
+        make
+        bibtex paper
+        touch *.tex
+        make
+        touch *.tex
+        make
+        evince paper.pdf &
+        #clear
+    fi
+}
+
 export EDITOR="vim"
 export LESS='-R'
 export LESSOPEN='|~/.lessfilter %s'
@@ -19,11 +44,13 @@ shopt -s checkwinsize
 alias svenska="setxkbmap se,ru"
 alias dvp="setxkbmap dvp,ru"
 
+alias bunzip='bunzip2'
 alias grep='grep --color'
 alias egrep='egrep --color'
 alias psg='ps ax | grep'
 alias bc='bc -l -q'
 alias gnuplot='gnuplot -persist'
+alias R='R --quiet'
 alias pacman='pacman-color'
 alias cal="cal -m3"
 alias gitk="gitk --all"
@@ -105,8 +132,10 @@ alias fru="ssh letnyaya"
 alias lingd='ssh igomo@lindgren.pdc.kth.se'
 alias lin='lingd'
 alias l='lingd'
-alias lin-kinit='kinit -f -l 700h igomo@NADA.KTH.SE && lin'
-alias lin-auth='pwsafe -p ssh.lindgren && lin-kinit'
+alias besk='ssh igomo@beskow.pdc.kth.se'
+alias besky='ssh -Y igomo@beskow.pdc.kth.se'
+alias pdc-kinit='kinit -f -l 700h igomo@NADA.KTH.SE'
+alias cherry="ssh cherry"
 
 function yoba-test()
 {
@@ -123,6 +152,13 @@ function yoba-test()
     esac
 }
 
+function tmpd() {
+    TMPD=`TMPDIR=$1 mktemp -d`
+    echo "Created a dir ${TMPD}"
+    export TMPD
+    echo "this path is saved in TMPD enviromental variable"
+}
+
 function piy() {
     while true; do
         ping www.ya.ru
@@ -134,6 +170,15 @@ function piy() {
         ping www.ya.ru
         echo "sleep 5 sec"
         sleep 5
+    done
+}
+
+function flash_keys() {
+    while true; do
+        asus-kbd-backlight 3
+        sleep 1.0
+        asus-kbd-backlight 0
+        sleep 0.5
     done
 }
 
@@ -153,12 +198,46 @@ alias infimake="while [ 1 ]; do make; sleep 1; done | grep -v Built"
 
 alias X2="XINITRC=.xinitrc2 xinit -- :1"
 alias crabber="mcabber -f ~/Dropbox/mine/crabberrc"
-alias presentation_right="xrandr --output eDP1 --auto --primary --output VGA1 --auto --right-of eDP1"
-alias presentation_above="xrandr --output eDP1 --auto --primary --output VGA1 --auto --above eDP1"
+
+function _external_monitor() {
+    main=eDP1
+    ext=VGA1
+    #xrandr_args="--output ${main} --auto --primary --output ${ext} --auto"
+    xrandr_args="--output ${main} --auto --primary --output ${ext} --mode 1920x1080"
+    case $1 in
+        'above'*)
+            xrandr ${xrandr_args} --above ${main}
+            ;;
+        'right-rotate'*)
+            xrandr ${xrandr_args} --right-of ${main} --rotate left
+            ;;
+        'right'*)
+            xrandr ${xrandr_args} --right-of ${main}
+            ;;
+        'left-rotate'*)
+            xrandr ${xrandr_args} --left-of ${main} --rotate left
+            ;;
+        'off'*)
+            xrandr --output ${ext} --off
+            ;;
+        *)
+            xrandr ${xrandr_args}
+            ;;
+    esac
+
+
+}
+
+alias presentation_above="_external_monitor above"
+alias presentation_right="_external_monitor right"
+alias presentation_leftrotate="_external_monitor left-rotate"
+alias presentation_rightrotate="_external_monitor right-rotate"
+alias presentation_off="_external_monitor off"
+
 
 alias food="ipython -i ~/sandbox/food.py"
 alias recoursive_bzip_all="find . -type f -exec bzip2 {} +"
-alias py="ipython2"
+alias py="ipython2 --no-banner --no-confirm"
 
 alias clonev="python2 /usr/lib/python2.7/site-packages/clonevirtualenv.py"
 
@@ -175,8 +254,8 @@ function dp() {
 }
 
 alias telegram="telegram -N"
-alias xflux-odintsovo="xflux -l 55.6806789 -g 37.2818590"
-alias xflux-linkoping="xflux -l 58.4167 -g 15.6167"
+alias xflux-odintsovo="xflux -l 55.6806789 -g 37.2818590" #-k 2000
+alias xflux-linkoping="xflux -l 58.4167 -g 15.6167 -k 2000"
 
 alias idag=`date '+%Y-%m-%d'`
 
@@ -195,4 +274,18 @@ function porn_fail() {
     _fail pornfree
 }
 
-alias wifi-no-powersave="sudo iwconfig wlp2s0 power off"
+function wifi-no-powersave() {
+    IFACE=wlp2s0
+    echo "Before:"
+    iwconfig ${IFACE} | egrep "ESSID|Power\ Management"
+    sudo iwconfig ${IFACE} power off
+    echo "After:"
+    iwconfig ${IFACE} | egrep "ESSID|Power\ Management"
+}
+
+# TDEP stuff
+PATH=$PATH:/opt/tdep-trunk/bin
+export PATH
+alias gnuplot='gnuplot -persist'
+
+eval $(dircolors /usr/share/dircolors/dircolors.ansi-dark)

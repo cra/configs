@@ -11,6 +11,7 @@ URxvt.urlLauncher: firefox
 URxvt.matcher.button: 2
 URxvt.keysym.C-g: perl:matcher
 URxvt.matcher.pattern.1: \\bwww\\.[\\w-]\\[\\w./?&@#-]*[\\w/-]
+!!URxvt.fade: 10
 Xcursor.theme: Grounation
 Xcursor.size: 32
 gnuplot*persist: on

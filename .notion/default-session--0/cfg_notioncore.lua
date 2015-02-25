@@ -61,6 +61,9 @@ defbindings("WScreen", {
     --kpress(ALTMETA.."F12", "mod_query.query_menu(_, _sub, 'mainmenu', 'Main menu:')"),
     kpress(ALTMETA.."F12", "mod_menu.menu(_, _sub, 'mainmenu', {big=true})"),
     mpress("Button3", "mod_menu.pmenu(_, _sub, 'mainmenu')"),
+
+    bdoc("Restart notion."),
+    kpress(ALTMETA.."Shift+F11", "ioncore.restart()"),
     
     bdoc("Display the window list menu."),
     mpress("Button2", "mod_menu.pmenu(_, _sub, 'windowlist')"),
@@ -315,9 +318,11 @@ defmenu("mainmenu", {
     menuentry("Run...",         "mod_query.query_exec(_)"),
     menuentry("Lock screen",    "ioncore.exec_on(_, 'xkb-switch -s dvp && slock')"),
     menuentry("WiFi-menu",    "ioncore.exec_on(_, 'urxvtc -e sudo wifi-menu')"),
-    menuentry("Disable Laptop keyboard",    "ioncore.exec_on(_, 'xinput set-int-prop 11 \"Device Enabled\" 8 0')"),
+    menuentry("Disable Laptop keyboard (id=11)",    "ioncore.exec_on(_, 'xinput set-int-prop 11 \"Device Enabled\" 8 0')"),
+    menuentry("Disable Laptop keyboard (id=12)",    "ioncore.exec_on(_, 'xinput set-int-prop 12 \"Device Enabled\" 8 0')"),
+    menuentry("Enable keyboard enhancements",    "ioncore.exec_on(_, 'xmodmap ~/.xmodmap && xbindkeys')"),
+    menuentry("Re-set keyboard layouts",    "ioncore.exec_on(_, 'setxkbmap dvp,us,se_sv_dvorak,ru')"),
     submenu("Terminal",         "terminalsmenu"),
-    submenu("Keyboard",         "keyboardmenu"),
     --menuentry("Help",           "mod_query.query_man(_)"),
     --menuentry("About Ion",      "mod_query.show_about_ion(_)"),
     submenu("External monitor", "externalmonitormenu"),
@@ -330,13 +335,6 @@ defmenu("terminalsmenu", {
     menuentry("Terminal",       "ioncore.exec_on(_, XTERM or 'xterm')"),
     menuentry("Urxvtc",       "ioncore.exec_on(_, 'urxvtc')"),
     menuentry("Urxvt",       "ioncore.exec_on(_, 'urxvt')"),
-})
-
-
--- Keyboard tricks
-defmenu("keyboardmenu", {
-    menuentry("Enable keyboard enhancements",    "ioncore.exec_on(_, 'xmodmap ~/.xmodmap && xbindkeys')"),
-    menuentry("Disable Laptop keyboard",    "ioncore.exec_on(_, 'xinput set-int-prop 11 \"Device Enabled\" 8 0')"),
 })
 
 

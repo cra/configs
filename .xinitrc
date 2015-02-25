@@ -21,10 +21,11 @@ fi
 # ...or the Window Manager of your choice
 
 /usr/bin/asus-kbd-backlight allowusers
-udiskie &
-stalonetray &
+udiskie --smart-tray &
 parcellite --no-icon &
-hsetroot -fill ~/.wallpaper-emma.jpg
+stalonetray &
+batterymon -n 40 -e 30 &
+hsetroot -fill ~/.wallpaper-transformer.jpg
 
 ssh-agent notion
 #openbox

@@ -12,3 +12,4 @@
 !.tmux.conf
 !.vimrc
 !.xbindkeysrc.scm
+.httr-oauth
