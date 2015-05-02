@@ -71,11 +71,12 @@ defbindings("WMPlex", {
 	bdoc("Run firefox"),
 	kpress(ALTMETA.."f", "ioncore.exec_on(_, 'firefox')"),
 
-	bdoc("Run chromium"),
-	kpress(ALTMETA.."c", "ioncore.exec_on(_, 'chromium')"),
+	bdoc("Run chromium. 'B' is for 'browser'"),
+	kpress(ALTMETA.."b", "ioncore.exec_on(_, 'chromium')"),
 
-	bdoc("Run chromium incognito"),
-	kpress(ALTMETA.."c", "ioncore.exec_on(_, 'chromium --incognito')"),
+	bdoc("Open incognito chromium."),
+	kpress(ALTMETA.."Shift+b", "ioncore.exec_on(_, 'chromium --incognito')"),
+
 
 	bdoc("slock screen"),
 	kpress(ALTMETA.."Shift+L", "ioncore.exec_on(_, 'xkb-switch -s dvp && slock')"),
