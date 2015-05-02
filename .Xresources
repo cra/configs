@@ -1,6 +1,7 @@
 !Xft.dpi: 96
 !URxvt*font: -*-terminus-medium-*-*-*-24-*-*-*-*-*-iso10646-1
 URxvt*font: xft:terminus:size=14
+!URxvt*font: xft:terminus:size=18
 !xterm*VT100.utf8Fonts.font: -*-terminus-medium-*-*-*-17-120-100-100-*-*-iso10646-1
 xterm*font: -*-terminus-medium-*-*-*-16-*-*-*-*-*-iso10646-1
 URxvt*saveLines: 2048

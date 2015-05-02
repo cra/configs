@@ -40,26 +40,15 @@ matter to us.
 
 defbindings("WScreen", {
 	bdoc("Navigate to the left/right workspace."),
-	--kpress(ALTMETA.."Shift+H", "WScreen.switch_prev(_)"),
-    --kpress(ALTMETA.."Shift+N", "WScreen.switch_next(_)"),
+    kpress(ALTMETA.."comma", "WScreen.switch_prev(_)"),
+    kpress(ALTMETA.."period", "WScreen.switch_next(_)"),
 
-	bdoc("My scheme of navigation (top-bottom-and-two-laterals,and one more lateral)"),
-	kpress(ALTMETA.."Shift+T", "WScreen.switch_nth(_, 2)"),
-	kpress(ALTMETA.."Shift+S", "WScreen.switch_nth(_, 3)"),
-	kpress(ALTMETA.."Shift+minus", "WScreen.switch_nth(_, 4)"),
-
-    bdoc("Navigate workspaces using a Dvorak grid-based metaphor."),
-    kpress(ALTMETA.."ampersand", "WScreen.switch_nth(_, 0)"),
-    kpress(ALTMETA.."bracketleft", "WScreen.switch_nth(_, 1)"),
-    kpress(ALTMETA.."braceleft", "WScreen.switch_nth(_, 2)"),
-    kpress(ALTMETA.."semicolon", "WScreen.switch_nth(_, 3)"),
-    kpress(ALTMETA.."comma", "WScreen.switch_nth(_, 4)"),
-    kpress(ALTMETA.."period", "WScreen.switch_nth(_, 5)"),
-
+	bdoc("My scheme of navigation (top-bottom-and-two-laterals, and one more optional lateral)"),
     kpress(ALTMETA.."Shift+h", "WScreen.switch_nth(_, 0)"),
     kpress(ALTMETA.."Shift+t", "WScreen.switch_nth(_, 1)"),
     kpress(ALTMETA.."Shift+n", "WScreen.switch_nth(_, 2)"),
     kpress(ALTMETA.."Shift+r", "WScreen.switch_nth(_, 3)"),
+    kpress(ALTMETA.."Shift+s", "WScreen.switch_nth(_, 4)"),
 
 })
 
@@ -80,7 +69,13 @@ defbindings("WMPlex", {
     kpress(META.."Shift+space", "ioncore.exec_on(_, 'LC_ALL=ru_RU.koi8r urxvt -T koi')"),
 
 	bdoc("Run firefox"),
-	kpress(ALTMETA.."Shift+b", "ioncore.exec_on(_, 'firefox')"),
+	kpress(ALTMETA.."f", "ioncore.exec_on(_, 'firefox')"),
+
+	bdoc("Run chromium"),
+	kpress(ALTMETA.."c", "ioncore.exec_on(_, 'chromium')"),
+
+	bdoc("Run chromium incognito"),
+	kpress(ALTMETA.."c", "ioncore.exec_on(_, 'chromium --incognito')"),
 
 	bdoc("slock screen"),
 	kpress(ALTMETA.."Shift+L", "ioncore.exec_on(_, 'xkb-switch -s dvp && slock')"),

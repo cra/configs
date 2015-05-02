@@ -203,7 +203,7 @@ function _external_monitor() {
     main=eDP1
     ext=VGA1
     #xrandr_args="--output ${main} --auto --primary --output ${ext} --auto"
-    xrandr_args="--output ${main} --auto --primary --output ${ext} --mode 1920x1080"
+    xrandr_args="--output ${main} --auto --primary --output ${ext} --mode 1920x1200"
     case $1 in
         'above'*)
             xrandr ${xrandr_args} --above ${main}
@@ -255,9 +255,13 @@ function dp() {
 
 alias telegram="telegram -N"
 alias xflux-odintsovo="xflux -l 55.6806789 -g 37.2818590" #-k 2000
-alias xflux-linkoping="xflux -l 58.4167 -g 15.6167 -k 2000"
+alias xflux-linkoping="xflux -l 58.4167    -g 15.6167" #  -k 2000"
 
 alias idag=`date '+%Y-%m-%d'`
+
+function pretty_json() {
+    echo $@ | python2 -mjson.tool | pygmentize -l javascript
+}
 
 function _fail() {
     echo "Sigh..."
