@@ -320,7 +320,7 @@ defmenu("mainmenu", {
     menuentry("WiFi-menu",    "ioncore.exec_on(_, 'urxvtc -e sudo wifi-menu')"),
     menuentry("Disable Laptop keyboard (id=11)",    "ioncore.exec_on(_, 'xinput set-int-prop 11 \"Device Enabled\" 8 0')"),
     menuentry("Disable Laptop keyboard (id=12)",    "ioncore.exec_on(_, 'xinput set-int-prop 12 \"Device Enabled\" 8 0')"),
-    menuentry("Enable keyboard enhancements",    "ioncore.exec_on(_, 'xmodmap ~/.xmodmap && xbindkeys')"),
+    menuentry("Enable keyboard enhancements",    "ioncore.exec_on(_, 'xset r rate 170 50 && xmodmap ~/.xmodmap && xbindkeys')"),
     menuentry("Re-set keyboard layouts",    "ioncore.exec_on(_, 'setxkbmap dvp,us,se_sv_dvorak,ru')"),
     submenu("Terminal",         "terminalsmenu"),
     --menuentry("Help",           "mod_query.query_man(_)"),

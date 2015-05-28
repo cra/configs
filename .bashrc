@@ -6,9 +6,41 @@
 [[ $- != *i* ]] && return
 
 alias ls='ls --color=auto'
-PS1='[\u@\h]::[\[\033[01;32m\]\D{%H:%M:%S %b%d}\[\033[00m\]] \w\n $ '
+PS1='[\u@\h]::[\[\033[01;32m\]\D{%H:%M:%S v%W/%b%d}\[\033[00m\]] \w\n $ '
 
 export PAPER_SRC=/home/cra/inbox/paper-pottest
+
+function kbfix() {
+    xset r rate 170 50
+    setxkbmap dvp,us,se_sv_dvorak,ru
+    xmodmap ~/.xmodmap
+    xmodmap ~/.xmodmap
+    xmodmap ~/.xmodmap
+}
+
+function friday_reflection() {
+    echo "Estimate the week on a scale from 1 to 10"
+    read
+    jrnl <<EOF
+${REPLY}/10 vecka `date +%W` friday reflection.
+Three things going well:
+1.
+2.
+3.
+
+Three things to improve:
+1.
+2.
+3.
+
+What to change next week:
+1.
+2.
+3.
+EOF
+
+    jrnl -1 --edit
+}
 
 function write_paper() {
     TMP=/tmp/paper #TMP=`mktemp -d`
@@ -293,3 +325,4 @@ export PATH
 alias gnuplot='gnuplot -persist'
 
 eval $(dircolors /usr/share/dircolors/dircolors.ansi-dark)
+
