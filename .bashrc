@@ -6,7 +6,7 @@
 [[ $- != *i* ]] && return
 
 alias ls='ls --color=auto'
-PS1='[\u@\h]::[\[\033[01;32m\]\D{%H:%M:%S v%W/%b%d}\[\033[00m\]] \w\n $ '
+PS1='[\u@\h]::[\[\033[01;32m\]\D{%H:%M:%S v%W[m%m]/%b%d}\[\033[00m\]] \w\n $ '
 
 export PAPER_SRC=/home/cra/inbox/paper-pottest
 
@@ -15,14 +15,43 @@ function kbfix() {
     setxkbmap dvp,us,se_sv_dvorak,ru
     xmodmap ~/.xmodmap
     xmodmap ~/.xmodmap
-    xmodmap ~/.xmodmap
 }
+
+function jlispbook() {
+    jrnl kanban <<EOF
+30min land of lisp
+@programming
+[[ short summary ]]
+EOF
+    jrnl kanban -1 --edit
+}
+
+function kanban_count() {
+    echo "Number of items in backlog?"
+    read
+    BACKLOG=${REPLY}
+    echo "Number of items in today?"
+    read
+    TODAY=${REPLY}
+    echo "Number of items in 'in work'?"
+    read
+    INWORK=${REPLY}
+    echo "Number of items in 'done'?"
+    read
+    DONE=${REPLY}
+    jrnl kanban <<EOF
+BACKLOG ${BACKLOG} TODAY ${TODAY} INWORK ${INWORK} DONE ${DONE} @count @liuboard
+EOF
+    jrnl kanban -1 --edit
+}
+alias jkanban_edit_last='jrnl kanban -1 --edit'
+alias jkanban_show_last='jrnl kanban -1'
 
 function friday_reflection() {
     echo "Estimate the week on a scale from 1 to 10"
     read
     jrnl <<EOF
-${REPLY}/10 vecka `date +%W` friday reflection.
+${REPLY}/10 vecka `date +%W` friday @reflection.
 Three things going well:
 1.
 2.

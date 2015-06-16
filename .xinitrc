@@ -28,5 +28,5 @@ batterymon -n 40 -e 30 &
 hsetroot -fill ~/.wallpaper-transformer.jpg
 
 ssh-agent notion
-##openbox
+#openbox
 

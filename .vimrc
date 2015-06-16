@@ -29,12 +29,19 @@ set laststatus=2
  
 "autocmd FileType tex setlocal spell spelllang=en,ru
 
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set textwidth=80
 set smarttab
 set expandtab
+set modeline
+
+autocmd FileType python set shiftwidth=4
+autocmd FileType python set tabstop=4
+autocmd FileType python set softtabstop=4
+autocmd FileType python set textwidth=80
+
+autocmd FileType lisp set shiftwidth=4
+autocmd FileType lisp set tabstop=4
+autocmd FileType lisp set softtabstop=4
+autocmd FileType lisp set textwidth=80
 
 
 augroup resCur
