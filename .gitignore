@@ -12,4 +12,5 @@
 !.tmux.conf
 !.vimrc
 !.xbindkeysrc.scm
+!.pylintrc
 .httr-oauth

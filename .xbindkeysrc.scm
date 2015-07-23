@@ -64,12 +64,8 @@
 (xbindkey '(Shift XF86AudioLowerVolume)
    "amixer -- sset PCM playback 5dB-")
 
-(xbindkey '(Shift Up)
-   "amixer -- sset PCM playback 5dB+")
 (xbindkey '(Shift XF86AudioRaiseVolume)
    "amixer -- sset PCM playback 5dB+")
-(xbindkey '(Shift Down)
-   "amixer -- sset PCM playback 5dB-")
 (xbindkey '(Shift XF86AudioLowerVolume)
    "amixer -- sset PCM playback 5dB-")
 

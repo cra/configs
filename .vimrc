@@ -16,7 +16,7 @@ let g:tex_flavor = "latex"
 " E265 block comment should start with "# "
 " E122 continuation line missing indentation or outdented
 " E128 continuation line under-indented for visual indent
-let g:pymode_lint_ignore="E501,E261,E265,E122,E128"
+let g:pymode_lint_ignore="E501,E261,E265,E122,E128,W602"
 "
 " Rope
 let g:pymode_rope = 0

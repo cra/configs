@@ -10,6 +10,32 @@ PS1='[\u@\h]::[\[\033[01;32m\]\D{%H:%M:%S v%W[m%m]/%b%d}\[\033[00m\]] \w\n $ '
 
 export PAPER_SRC=/home/cra/inbox/paper-pottest
 
+function share_screen() {
+        ffmpeg -f x11grab -r 15 -s 1920x1080 -i :0.0+0,0 -vcodec rawvideo -pix_fmt yuv420p -threads 0 -f v4l2 /dev/video1
+}
+
+alias time-odintsovo="timedatectl set-timezone Europe/Moscow"
+alias time-linkoping="timedatectl set-timezone Europe/Stockholm"
+
+function lsh() {
+    cd ~/sandbox/lsh_ng
+    source ./venv/bin/activate
+    cd ./frufru_ng/
+    source user_settings.sh
+    echo "Yo"
+}
+
+function katmandu() {
+    cd ~/sandbox/katmandu-backend/
+    source ./v/bin/activate
+
+    echo "KADMANDUUU"
+}
+
+function LandOfLisp() {
+    cd ~/sandbox/LandofLisp
+}
+
 function kbfix() {
     xset r rate 170 50
     setxkbmap dvp,us,se_sv_dvorak,ru
@@ -18,29 +44,30 @@ function kbfix() {
 }
 
 function jlispbook() {
-    jrnl kanban <<EOF
+    jrnl reading <<EOF
 30min land of lisp
 @programming
 [[ short summary ]]
 EOF
-    jrnl kanban -1 --edit
+    jrnl reading -1 --edit
 }
 
-function kanban_count() {
+function jkanban_count() {
     echo "Number of items in backlog?"
     read
     BACKLOG=${REPLY}
-    echo "Number of items in today?"
-    read
-    TODAY=${REPLY}
+    #echo "Number of items in today?"
+    #read
+    #TODAY=${REPLY}
     echo "Number of items in 'in work'?"
     read
     INWORK=${REPLY}
     echo "Number of items in 'done'?"
     read
     DONE=${REPLY}
+#BACKLOG ${BACKLOG} TODAY ${TODAY} INWORK ${INWORK} DONE ${DONE} @count @liuboard
     jrnl kanban <<EOF
-BACKLOG ${BACKLOG} TODAY ${TODAY} INWORK ${INWORK} DONE ${DONE} @count @liuboard
+BACKLOG ${BACKLOG} INWORK ${INWORK} DONE ${DONE} @count @liuboard
 EOF
     jrnl kanban -1 --edit
 }
@@ -233,6 +260,8 @@ function piy() {
         sleep 5
     done
 }
+alias pi=piy
+alias iy=piy
 
 function flash_keys() {
     while true; do
@@ -263,8 +292,10 @@ alias crabber="mcabber -f ~/Dropbox/mine/crabberrc"
 function _external_monitor() {
     main=eDP1
     ext=VGA1
+    #mode=1920x1200
+    mode=2048x1152 # Linkoping
     #xrandr_args="--output ${main} --auto --primary --output ${ext} --auto"
-    xrandr_args="--output ${main} --auto --primary --output ${ext} --mode 1920x1200"
+    xrandr_args="--output ${main} --auto --output ${ext} --primary --right-of ${main} --mode ${mode}" # Linkoping
     case $1 in
         'above'*)
             xrandr ${xrandr_args} --above ${main}
@@ -298,7 +329,8 @@ alias presentation_off="_external_monitor off"
 
 alias food="ipython -i ~/sandbox/food.py"
 alias recoursive_bzip_all="find . -type f -exec bzip2 {} +"
-alias py="ipython2 --no-banner --no-confirm"
+alias py="ipython2 --no-banner --no-confirm --autoedit-syntax"
+alias nb="ipython2 notebook"
 
 alias clonev="python2 /usr/lib/python2.7/site-packages/clonevirtualenv.py"
 

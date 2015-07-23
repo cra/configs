@@ -23,6 +23,7 @@ fi
 /usr/bin/asus-kbd-backlight allowusers
 udiskie --smart-tray &
 parcellite --no-icon &
+xpad --no-new &
 stalonetray &
 batterymon -n 40 -e 30 &
 hsetroot -fill ~/.wallpaper-transformer.jpg
