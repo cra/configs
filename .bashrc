@@ -17,6 +17,9 @@ function share_screen() {
 alias time-odintsovo="timedatectl set-timezone Europe/Moscow"
 alias time-linkoping="timedatectl set-timezone Europe/Stockholm"
 
+export WORKON_HOME=~/.py_venvs
+alias arm_venw="source /usr/bin/virtualenvwrapper.sh"
+
 function lsh() {
     cd ~/sandbox/lsh_ng
     source ./venv/bin/activate
@@ -30,6 +33,13 @@ function katmandu() {
     source ./v/bin/activate
 
     echo "KADMANDUUU"
+}
+
+function ecfront() {
+    cd ~/sandbox/escapecontrol/front/
+    source ./v/bin/activate
+
+    echo "Escape. Control. Front"
 }
 
 function LandOfLisp() {
@@ -50,6 +60,24 @@ function jlispbook() {
 [[ short summary ]]
 EOF
     jrnl reading -1 --edit
+}
+
+current_book="r book"
+function jreading() {
+    if [ $1 ]
+    then
+        time_m=$1
+    else
+        time_m=30
+    fi
+
+    jrnl reading <<EOF
+${time_m}min ${current_book}
+@programming
+[[ short summary ]]
+EOF
+    jrnl reading -1 --edit
+
 }
 
 function jkanban_count() {
@@ -139,7 +167,6 @@ alias psg='ps ax | grep'
 alias bc='bc -l -q'
 alias gnuplot='gnuplot -persist'
 alias R='R --quiet'
-alias pacman='pacman-color'
 alias cal="cal -m3"
 alias gitk="gitk --all"
 alias postgres-start="sudo systemctl start postgresql"
@@ -180,6 +207,8 @@ alias wst="sudo wpa_cli status"
 alias a="cd ~/archive/"
 alias p="cd ~/projects/"
 alias s="cd ~/sandbox/"
+
+alias feni='cd ~/inbox/1506\ FeNi\ 0K'
 
 
 alias xchat="echo use smuxi"
@@ -238,6 +267,10 @@ function yoba-test()
             echo "UUU"
             ;;
     esac
+
+    #TEST=1
+
+    if [ $TEST ]; then echo Test var was set; fi
 }
 
 function tmpd() {
@@ -349,6 +382,8 @@ function dp() {
 alias telegram="telegram -N"
 alias xflux-odintsovo="xflux -l 55.6806789 -g 37.2818590" #-k 2000
 alias xflux-linkoping="xflux -l 58.4167    -g 15.6167" #  -k 2000"
+alias xflux-paris="xflux -l 48.864716    -g 2.349014" #  -k 2000"
+alias xflux-ss="xflux -l 43.318334 -g -1.98123123"
 
 alias idag=`date '+%Y-%m-%d'`
 

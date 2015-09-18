@@ -27,6 +27,9 @@ xpad --no-new &
 stalonetray &
 batterymon -n 40 -e 30 &
 hsetroot -fill ~/.wallpaper-transformer.jpg
+exec dbus-launch &
+#dunst??
+remind -z '-knotify-send -t 0 -u critical %s &' ~/.reminders &
 
 ssh-agent notion
 #openbox

@@ -1,4 +1,5 @@
 *
+!.config/dunst/dunstrc
 !.gitignore
 !.xmodmap
 !.xinitrc.common

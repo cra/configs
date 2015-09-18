@@ -24,6 +24,10 @@ let g:pymode_rope_lookup_project = 0
 let g:pymode_rope_regenerate_on_write = 0
 let g:pymode_rope_vim_completion = 0
 
+" TagTime helper macro
+"replace tags on this tagtime line with those from the prev line.
+"(warning: must have timestamp in square brackets on both lines)
+map <f4> mzk0el"vy/\([\\|$\)<cr>jd/\([\\|$\)<cr>h"vp`zj
 
 set laststatus=2
  
