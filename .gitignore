@@ -1,4 +1,5 @@
 *
+!.jupyter/custom/custom.js
 !.config/dunst/dunstrc
 !.gitignore
 !.xmodmap

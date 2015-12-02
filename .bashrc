@@ -15,7 +15,10 @@ function share_screen() {
 }
 
 alias time-odintsovo="timedatectl set-timezone Europe/Moscow"
+alias time-paris="timedatectl set-timezone Europe/Paris"
 alias time-linkoping="timedatectl set-timezone Europe/Stockholm"
+
+export PYTHONDOCS=/usr/share/doc/python2/html/
 
 export WORKON_HOME=~/.py_venvs
 alias arm_venw="source /usr/bin/virtualenvwrapper.sh"
@@ -53,14 +56,28 @@ function kbfix() {
     xmodmap ~/.xmodmap
 }
 
-function jlispbook() {
+function kbfix-liu() {
+    kbfix
+    xmodmap ~/.xmodmap
+}
+
+function jbook() {
     jrnl reading <<EOF
-30min land of lisp
+30min $@
 @programming
 [[ short summary ]]
 EOF
     jrnl reading -1 --edit
 }
+
+function jlispbook() {
+    jbook land of lisp
+}
+
+function jfortranbook() {
+    jbook "fortran95/2003" book
+}
+
 
 current_book="r book"
 function jreading() {
@@ -325,8 +342,8 @@ alias crabber="mcabber -f ~/Dropbox/mine/crabberrc"
 function _external_monitor() {
     main=eDP1
     ext=VGA1
-    #mode=1920x1200
-    mode=2048x1152 # Linkoping
+    mode=1920x1080
+    #mode=2048x1152 # Linkoping
     #xrandr_args="--output ${main} --auto --primary --output ${ext} --auto"
     xrandr_args="--output ${main} --auto --output ${ext} --primary --right-of ${main} --mode ${mode}" # Linkoping
     case $1 in
