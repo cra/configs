@@ -6,7 +6,13 @@
 [[ $- != *i* ]] && return
 
 alias ls='ls --color=auto'
-PS1='[\u@\h]::[\[\033[01;32m\]\D{%H:%M:%S v%W[m%m]/%b%d}\[\033[00m\]] \w\n $ '
+
+
+function parse_git_branch {
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+
+PS1='[\u@\h]::[\[\033[01;32m\]\D{%H:%M:%S v%W[m%m]/%b%d}\[\033[00m\]] $(parse_git_branch) \w\n $ '
 
 export PAPER_SRC=/home/cra/inbox/paper-pottest
 
@@ -22,6 +28,45 @@ export PYTHONDOCS=/usr/share/doc/python2/html/
 
 export WORKON_HOME=~/.py_venvs
 alias arm_venw="source /usr/bin/virtualenvwrapper.sh"
+
+function _date_in_russian_fmt()
+{
+        LC_TIME=ru_RU.utf8 date +"%d %B %Y [%A]" --date="$1"
+}
+
+alias tell_tomorrow='_date_in_russian_fmt tomorrow'
+alias tell_yesterday='_date_in_russian_fmt yesterday'
+
+function clone_yesterdays_plan_here()
+{
+    #mktemp -d plan$(date +%y%m%d).XXXX
+
+    if [ $(pwd | grep ^/tmp) ]; then
+        this_month_plans_dir=~/inbox/$(date '+%y%m')\ daily\ plans
+        yesterday_plan=PLAN_$(date +%y%m%d --date='yesterday').tex
+        today_plan=PLAN_$(date +%y%m%d).tex
+        if [ ! -e "${this_month_plans_dir}/${yesterday_plan}" ]; then
+            echo "Cannot find yesterday plan. Trying to find something earlier"
+            for days_ago in `seq 2 10`; do
+                yesterday_plan=PLAN_$(date +%y%m%d --date="${days_ago} days ago").tex
+                if [ -e "${this_month_plans_dir}/${yesterday_plan}" ]; then
+                    echo "Using plan from ${days_ago} days ago"
+                    break
+                fi
+            done
+        fi
+        if [ -e "${this_month_plans_dir}/${yesterday_plan}" ]; then
+                cp -iv "${this_month_plans_dir}/${yesterday_plan}" ./${today_plan}
+        else
+                echo "Can't find a suitable plan. Last tried: ${yesterday_plan}."
+                echo "Please step in"
+        fi
+    else
+        echo "Switch to a temporary directory first. I won't copy anything otherwise"
+    fi
+}
+
+alias omodoro-tocks="echo Firing 4 tocsk with 30 min rest on completion; omodoro 4-45-15-30"
 
 function lsh() {
     cd ~/sandbox/lsh_ng
@@ -40,9 +85,10 @@ function katmandu() {
 
 function ecfront() {
     cd ~/sandbox/escapecontrol/front/
-    source ./v/bin/activate
+    arm_venw
+    workon py32env-ecfront
 
-    echo "Escape. Control. Front"
+    echo "Escape. Control. Front. VENV ACTIVATED"
 }
 
 function LandOfLisp() {
@@ -51,7 +97,7 @@ function LandOfLisp() {
 
 function kbfix() {
     xset r rate 170 50
-    setxkbmap dvp,us,se_sv_dvorak,ru
+    setxkbmap dvp,us,ru,se_sv_dvorak
     xmodmap ~/.xmodmap
     xmodmap ~/.xmodmap
 }
@@ -122,22 +168,28 @@ alias jkanban_show_last='jrnl kanban -1'
 function friday_reflection() {
     echo "Estimate the week on a scale from 1 to 10"
     read
+    week_perception=${REPLY}
+    echo "Week summary"
+    read
+    week_summary=${REPLY}
+    echo "Three MITs for next week:"
+    for ind in 1 2 3
+    do
+            echo "MIT${ind}:"
+            read
+            MIT[${ind}]=${REPLY}
+    done
+
     jrnl <<EOF
-${REPLY}/10 vecka `date +%W` friday @reflection.
-Three things going well:
-1.
-2.
-3.
+${week_perception}/10 vecka `date +%W` friday @reflection.
 
-Three things to improve:
-1.
-2.
-3.
+SUMMARY:
+${week_summary}
 
-What to change next week:
-1.
-2.
-3.
+MITs for next week:
+1. ${MIT[1]}
+2. ${MIT[2]}
+3. ${MIT[3]}
 EOF
 
     jrnl -1 --edit
@@ -213,6 +265,7 @@ alias mpq="mplayer -really-quiet"
 alias quiet-mplayer="mplayer -really-quiet"
 
 alias wcli="sudo wpa_cli"
+alias wcl="sudo wpa_cli"
 alias wrecon="sudo wpa_cli reconfigure"
 alias wrc="sudo wpa_cli reconfigure"
 alias wscan="sudo wpa_cli scan && sudo wpa_cli scan_results"
@@ -342,8 +395,8 @@ alias crabber="mcabber -f ~/Dropbox/mine/crabberrc"
 function _external_monitor() {
     main=eDP1
     ext=VGA1
-    mode=1920x1080
-    #mode=2048x1152 # Linkoping
+    #mode=1920x1080
+    mode=2048x1152 # Linkoping
     #xrandr_args="--output ${main} --auto --primary --output ${ext} --auto"
     xrandr_args="--output ${main} --auto --output ${ext} --primary --right-of ${main} --mode ${mode}" # Linkoping
     case $1 in
@@ -398,7 +451,7 @@ function dp() {
 
 alias telegram="telegram -N"
 alias xflux-odintsovo="xflux -l 55.6806789 -g 37.2818590" #-k 2000
-alias xflux-linkoping="xflux -l 58.4167    -g 15.6167" #  -k 2000"
+alias xflux-linkoping="xflux -l 58.4167    -g 15.6167  -k 2000"
 alias xflux-paris="xflux -l 48.864716    -g 2.349014" #  -k 2000"
 alias xflux-ss="xflux -l 43.318334 -g -1.98123123"
 
