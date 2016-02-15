@@ -7,10 +7,10 @@ xset fp rehash
 xrdb -merge .Xresources
 xrdb -merge .Xterm-colors
 
-
-
-setxkbmap dvp,us,se_sv_dvorak,ru
+setxkbmap dvp,us,ru,se_sv_dvorak
 xmodmap .xmodmap
 xbindkeys
+
+/usr/bin/asus-kbd-backlight allowusers
 
 urxvtd -q -f -o

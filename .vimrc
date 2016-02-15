@@ -5,6 +5,12 @@ set background=dark
 colorscheme askapachecode
 set number
 
+" Toggle 'show invisibles'
+nmap <leader>l :set list!<CR>
+
+" Use the same symbols as TextMate for tabstops and EOLs
+"set listchars=tab:▸\ ,eol:¬
+
 filetype plugin indent on
 syntax on
 set grepprg=grep\ -nH\ $*
@@ -16,7 +22,17 @@ let g:tex_flavor = "latex"
 " E265 block comment should start with "# "
 " E122 continuation line missing indentation or outdented
 " E128 continuation line under-indented for visual indent
-let g:pymode_lint_ignore="E501,E261,E265,E122,E128,W602"
+" E731 do not assign a lambda expression, use a def
+let g:pymode_lint_ignore="E501,E261,E265,E122,E128,W602,E731"
+
+"aerogram mode
+" E302 expected 2 blank lines, found 0
+" E225 missing whitespace around operator
+" E231 missing whitespace after ','
+" E303 too many blank lines
+" E202 whitespace before ']'
+"let g:pymode_lint_ignore="E302,E303,E202,E225,E231,E501,E261,E265,E122,E128,W602,"
+
 "
 " Rope
 let g:pymode_rope = 0

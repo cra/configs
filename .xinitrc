@@ -13,31 +13,26 @@ fi
 
 . ~/.xinitrc.common
 
-#NOTION=1
+NOTION=1
 
-#if [ NOTION == 1 ]
-#then
-        #dropboxd &
+udiskie --smart-tray &
+parcellite --no-icon &
+xpad --no-new &
+stalonetray &
+batterymon -n 40 -c 22 -e 'notify-send -u critical "Find a charger! QUICK"' &
 
-        # exec gnome-session
-        # exec startkde
-        # exec startxfce4
-        # ...or the Window Manager of your choice
-
-        /usr/bin/asus-kbd-backlight allowusers
-        udiskie --smart-tray &
-        parcellite --no-icon &
-        xpad --no-new &
-        stalonetray &
-        batterymon -n 40 -c 22 -e 'notify-send -u critical "Find a charger! QUICK"' &
+if [ $NOTION == 1 ]
+then
+#YOBA
         hsetroot -fill ~/.wallpaper-transformer.jpg
         exec dbus-launch &
-        #dunst??
+        ##dunst??
         remind -z '-knotify-send -t 0 -u critical %s &' ~/.reminders &
 
         ssh-agent notion
-#else
-        #hsetroot -fill .wallpaper-emma-RH.jpg
-        #openbox
-#fi
+#YOBA
+else
+        hsetroot -fill .wallpaper_sips.jpg
+        ssh-agent openbox
+fi
 
