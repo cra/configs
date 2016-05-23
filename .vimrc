@@ -2,7 +2,8 @@ set runtimepath=~/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/afte
 set background=dark
 "colorscheme solarized
 "colorscheme dual
-colorscheme askapachecode
+"colorscheme askapachecode
+colorscheme elflord
 set number
 
 " Toggle 'show invisibles'
@@ -16,14 +17,18 @@ syntax on
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor = "latex"
 
+" when I do gq, don't add extra spaces between sentences
+set nojoinspaces
+
 " ignore the following pep8 stuff:
 " E501 line too long
 " E261 two spaces before inline comment
+" E262 inline comment must starts with "# "
 " E265 block comment should start with "# "
 " E122 continuation line missing indentation or outdented
 " E128 continuation line under-indented for visual indent
 " E731 do not assign a lambda expression, use a def
-let g:pymode_lint_ignore="E501,E261,E265,E122,E128,W602,E731"
+let g:pymode_lint_ignore="E501,E261,E262,E265,E122,E128,W602,E731"
 
 "aerogram mode
 " E302 expected 2 blank lines, found 0

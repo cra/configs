@@ -20,6 +20,7 @@ parcellite --no-icon &
 xpad --no-new &
 stalonetray &
 batterymon -n 40 -c 22 -e 'notify-send -u critical "Find a charger! QUICK"' &
+selfspy -c ~/.config/selfspy.conf &
 
 if [ $NOTION == 1 ]
 then
