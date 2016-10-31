@@ -14,3 +14,5 @@ xbindkeys
 /usr/bin/asus-kbd-backlight allowusers
 
 urxvtd -q -f -o
+
+mkdir /tmp/gummi_cache

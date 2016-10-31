@@ -14,7 +14,23 @@ function parse_git_branch {
 
 PS1='[\u@\h]::[\[\033[01;32m\]\D{%H:%M:%S v%W[m%m]/%b%d}\[\033[00m\]] $(parse_git_branch) \w\n $ '
 
-export PAPER_SRC=/home/cra/inbox/paper-pottest
+#export PAPER_SRC="/home/cra/inbox/1608\ graphite-paper"
+export PAPER_SRC="/home/cra/inbox/paper-pottest/text"
+
+
+function crazy_click() {
+   # 135 400 0.01
+   xdotool mousemove $1 $2
+   while [ 1 ]
+   do
+           xdotool click 1
+           sleep $3
+   done
+}
+
+alias socks="echo 'Dynamic port forwarding on 0.0.0.0:1080'; ssh -D 1080 incraft"
+alias socks_mosyag="echo 'Dynamic port forwarding on 0.0.0.0:1080'; ssh -D 1080 mosyag -p 443"
+
 
 function share_screen() {
         ffmpeg -f x11grab -r 15 -s 1920x1080 -i :0.0+0,0 -vcodec rawvideo -pix_fmt yuv420p -threads 0 -f v4l2 /dev/video1
@@ -22,9 +38,44 @@ function share_screen() {
 
 alias time-odintsovo="timedatectl set-timezone Europe/Moscow"
 alias time-paris="timedatectl set-timezone Europe/Paris"
+alias time-ba="timedatectl set-timezone America/Argentina/Buenos_Aires"
 alias time-linkoping="timedatectl set-timezone Europe/Stockholm"
 
+function _tell_delta_since_may31() {
+        python <<EOF
+from datetime import datetime as dt
+n = dt.now()
+n31may = n.replace(year=2016, day=31, month=5)
+print("%4d days till %s" % ((n31may - n).days, n31may.strftime("%Y-%b-%d")))
+EOF
+}
+
+function _tell_delta_since_feb17() {
+        python <<EOF
+from datetime import datetime as dt
+n = dt.now()
+n17feb = n.replace(year=2017, day=17, month=2)
+print("%4d days till %s" % ((n17feb - n).days, n17feb.strftime("%Y-%b-%d")))
+EOF
+}
+
+function tell_delta_days() {
+        _tell_delta_since_feb17
+        _tell_delta_since_may31
+}
+
+
 export PYTHONDOCS=/usr/share/doc/python2/html/
+
+alias start_selfspy="selfspy -c ~/.config/selfspy.conf"
+
+function t_logs {
+    tmux new-session -d 'dmesg -w'
+    tmux split-window -d 'ipython2'
+    tmux new-window
+    tmux select-window -t0
+    tmux attach
+}
 
 export WORKON_HOME=~/.py_venvs
 alias arm_venw="source /usr/bin/virtualenvwrapper.sh"
@@ -37,6 +88,14 @@ function _date_in_russian_fmt()
 alias tell_tomorrow='_date_in_russian_fmt tomorrow'
 alias tell_yesterday='_date_in_russian_fmt yesterday'
 
+function copy_plan_to_daily()
+{
+        this_month_plans_dir=~/inbox/$(date '+%y%m')\ daily\ plans
+        today_plan_base=PLAN_$(date +%y%m%d)
+        echo "TODAY is $(date +%y%m%d)"
+        mv -vi ${today_plan_base}.tex "${this_month_plans_dir}/"
+        mv -vi ${today_plan_base}.pdf "${this_month_plans_dir}/"
+}
 function clone_yesterdays_plan_here()
 {
     #mktemp -d plan$(date +%y%m%d).XXXX
@@ -48,6 +107,7 @@ function clone_yesterdays_plan_here()
         if [ ! -e "${this_month_plans_dir}/${yesterday_plan}" ]; then
             echo "Cannot find yesterday plan. Trying to find something earlier"
             for days_ago in `seq 2 10`; do
+                this_month_plans_dir=~/inbox/$(date '+%y%m' --date="${days_ago} days ago")\ daily\ plans
                 yesterday_plan=PLAN_$(date +%y%m%d --date="${days_ago} days ago").tex
                 if [ -e "${this_month_plans_dir}/${yesterday_plan}" ]; then
                     echo "Using plan from ${days_ago} days ago"
@@ -58,15 +118,62 @@ function clone_yesterdays_plan_here()
         if [ -e "${this_month_plans_dir}/${yesterday_plan}" ]; then
                 cp -iv "${this_month_plans_dir}/${yesterday_plan}" ./${today_plan}
         else
-                echo "Can't find a suitable plan. Last tried: ${yesterday_plan}."
+                echo "Can't find a suitable plan. Last tried: ${this_month_plans_dir}/${yesterday_plan}."
                 echo "Please step in"
         fi
     else
         echo "Switch to a temporary directory first. I won't copy anything otherwise"
     fi
 }
+function prepare_plan_for_tomorrow()
+{
+    if [ $(pwd | grep ^/tmp) ]; then
+        this_month_plans_dir=~/inbox/$(date '+%y%m')\ daily\ plans
+        template_plan=PLAN_$(date +%y%m%d).tex
+        tomorrow_plan=PLAN_$(date +%y%m%d --date='tomorrow').tex
+        if [ ! -e "${this_month_plans_dir}/${todays_plan}" ]; then
+            echo "Cannot find yesterday plan. Trying to find something earlier"
+            for days_ago in `seq 1 10`; do
+                this_month_plans_dir=~/inbox/$(date '+%y%m' --date="${days_ago} days ago")\ daily\ plans
+                template_plan=PLAN_$(date +%y%m%d --date="${days_ago} days ago").tex
+                if [ -e "${this_month_plans_dir}/${template_plan}" ]; then
+                    echo "Using plan from ${days_ago} days ago"
+                    break
+                fi
+            done
+        fi
+        if [ -e "${this_month_plans_dir}/${template_plan}" ]; then
+                cp -iv "${this_month_plans_dir}/${template_plan}" ./${tomorrow_plan}
+        else
+                echo "Can't find a suitable plan. Last tried: ${this_month_plans_dir}/${template_plan}."
+                echo "Please step in"
+        fi
+    else
+        echo "Switch to a temporary directory first. I won't copy anything otherwise"
+    fi
+}
+function fix_constants_in_plan() {
+  INPUT=$1
 
+  # change Title, Subj (days till may), fulldate, and two lines in infochapter
+  sed \
+    -e "s/\(.*Title={\).*}\(.*% MYTITL$\)/\1$(date '+%Y-%b-%d')}\2/"            \
+    -e "s/\(.*Subject={\).*}\(.*% MYSUBJ$\)/\1$(_tell_delta_since_may31)}\2/"   \
+    -e "s@\(.*bf \).*\(}.*% MYFULLDATE$\)@\1$(date +'%A. %B %d, %Y')\2@"        \
+    -e "s@.*\(\\\\\\\\\s*% MYINFOFEB$\)@$(_tell_delta_since_feb17)\1@"          \
+    -e "s@.*\(\\\\\\\\\s*% MYINFOMAY$\)@$(_tell_delta_since_may31)\1@"          \
+    -i ${INPUT}
+
+  echo "Tagline?"
+  read
+  sed "s@.*\(\\\\\\\\\s*% MYTAGLINE$\)@  ${REPLY}\1@" -i ${INPUT}
+
+  egrep "(MYTITL|MYSUBJ|MYFULLDATE|MYINFOFEB|MYINFOMAY|MYTAGLINE)" $1
+}
+
+alias short-modoros="echo Firing super-short ticsk with 10+2 rest on completion; omodoro 4-10-2-5"
 alias omodoro-tocks="echo Firing 4 tocsk with 30 min rest on completion; omodoro 4-45-15-30"
+alias omodoro-45="omodoro-tocks"
 
 function lsh() {
     cd ~/sandbox/lsh_ng
@@ -76,11 +183,40 @@ function lsh() {
     echo "Yo"
 }
 
+function ggj16() {
+    cd ~/inbox/1601\ global\ games\ jam/
+    echo "GGJ16"
+}
+alias gj=ggj16
+
+function day1() {
+    cd /home/cra/inbox/1607\ mmdl\ summer\ school/day1-lab
+    echo "WRRS day1 lab and handouts"
+    git status
+}
+
+function day2() {
+    cd /home/cra/inbox/1607\ mmdl\ summer\ school/day2-lab
+    echo "WRRS day TWO lab and handouts"
+    git status
+}
+
 function katmandu() {
     cd ~/sandbox/katmandu-backend/
     source ./v/bin/activate
 
     echo "KADMANDUUU"
+}
+
+function lshorg() {
+    cd /opt/letnyayashkola/frufru
+    arm_venw
+    workon py27-django
+
+    PYTHONSTARTUP=/opt/letnyayashkola/helpers.py
+    export PYTHONSTARTUP
+
+    echo "Rock'n'roll'"
 }
 
 function ecfront() {
@@ -89,10 +225,31 @@ function ecfront() {
     workon py32env-ecfront
 
     echo "Escape. Control. Front. VENV ACTIVATED"
+    echo "Pip is broken in this installation due to shitty py3.2"
+    echo ""
+    echo "Client issue tracker: http://tracker.escapecontrol.ru/"
+    echo "Bitbucket: https://bitbucket.org/escape-control/front"
+    echo ""
+    echo "Accessing test stand: 'ssh ec2' and then the web would be forwarded to"
+    echo "http://admin:sohz2Goc8iMeque@localhost.localdomain:8888/"
+    echo "More details: https://basecamp.com/2964774/projects/9604112/messages/46748777"
 }
 
 function LandOfLisp() {
     cd ~/sandbox/LandofLisp
+}
+
+function agram() {
+    cd ~/sandbox/AeroGramPythonFlaskODroid/aerogram_dev
+
+    source ~/sandbox/AeroGramPythonFlaskODroid/helpers.sh
+
+    echo "Pew-pew. Helper functions loaded"
+}
+alias ag=agram
+
+function tt() {
+    cd ~/sandbox/TagTime/
 }
 
 function kbfix() {
@@ -165,6 +322,7 @@ EOF
 alias jkanban_edit_last='jrnl kanban -1 --edit'
 alias jkanban_show_last='jrnl kanban -1'
 
+alias jreflection_last='jrnl -n1 @reflection'
 function friday_reflection() {
     echo "Estimate the week on a scale from 1 to 10"
     read
@@ -248,9 +406,12 @@ alias net-wifi="sudo wpa_supplicant -Dwext -i wlp2s0 -c /etc/wpa_supplicant/wpa_
 
 alias yoaurt='yaourt'
 alias yuaort='yaourt'
+alias yauort='yaourt'
 
 alias crl="crontab -l"
 alias cre="crontab -e"
+
+alias mae="make"
 
 alias dummy_smtpd="python -m smtpd -n -c DebuggingServer localhost:1025"
 
@@ -274,11 +435,11 @@ alias wstat="sudo wpa_cli status"
 alias wst="sudo wpa_cli status"
 
 # dirs
-alias a="cd ~/archive/"
-alias p="cd ~/projects/"
-alias s="cd ~/sandbox/"
+#alias a="cd ~/archive/"
+#alias p="cd ~/projects/"
+#alias s="cd ~/sandbox/"
 
-alias feni='cd ~/inbox/1506\ FeNi\ 0K'
+#alias feni='cd ~/inbox/1506\ FeNi\ 0K'
 
 
 alias xchat="echo use smuxi"
@@ -381,6 +542,13 @@ function wake_at() {
     sudo rtcwake -m mem -t $tid
 }
 
+function wake_a_with_musict() {
+    tid=`date +%s -d "$1"`
+    sudo rtcwake -m mem -t $tid
+    mplayer $2 &
+    slock
+}
+
 function calc() {
     echo $@ | bc
 }
@@ -395,10 +563,12 @@ alias crabber="mcabber -f ~/Dropbox/mine/crabberrc"
 function _external_monitor() {
     main=eDP1
     ext=VGA1
-    #mode=1920x1080
-    mode=2048x1152 # Linkoping
+    #mode=1920x1200 # MISA
+    #mode=2048x1152 # Linkoping
+    mode=1024x768 # VGA
     #xrandr_args="--output ${main} --auto --primary --output ${ext} --auto"
-    xrandr_args="--output ${main} --auto --output ${ext} --primary --right-of ${main} --mode ${mode}" # Linkoping
+    #xrandr_args="--output ${main} --auto --output ${ext} --primary --right-of ${main} --mode ${mode}" # Linkoping
+    xrandr_args="--output ${main} --auto --primary --output ${ext} --mode ${mode}" # Linkoping
     case $1 in
         'above'*)
             xrandr ${xrandr_args} --above ${main}
@@ -411,6 +581,9 @@ function _external_monitor() {
             ;;
         'left-rotate'*)
             xrandr ${xrandr_args} --left-of ${main} --rotate left
+            ;;
+        'left'*)
+            xrandr ${xrandr_args} --left-of ${main}
             ;;
         'off'*)
             xrandr --output ${ext} --off
@@ -425,6 +598,7 @@ function _external_monitor() {
 
 alias presentation_above="_external_monitor above"
 alias presentation_right="_external_monitor right"
+alias presentation_left="_external_monitor left"
 alias presentation_leftrotate="_external_monitor left-rotate"
 alias presentation_rightrotate="_external_monitor right-rotate"
 alias presentation_off="_external_monitor off"
@@ -453,7 +627,8 @@ alias telegram="telegram -N"
 alias xflux-odintsovo="xflux -l 55.6806789 -g 37.2818590" #-k 2000
 alias xflux-linkoping="xflux -l 58.4167    -g 15.6167  -k 2000"
 alias xflux-paris="xflux -l 48.864716    -g 2.349014" #  -k 2000"
-alias xflux-ss="xflux -l 43.318334 -g -1.98123123"
+alias xflux-ss="xflux -l 43.318334 -g -1.98123123" # San Sebastian
+alias xflux-buenosaires="xflux -l -34.6131500 -g -58.3772300" # Buenos Aires
 
 alias idag=`date '+%Y-%m-%d'`
 
@@ -492,3 +667,9 @@ alias gnuplot='gnuplot -persist'
 
 eval $(dircolors /usr/share/dircolors/dircolors.ansi-dark)
 
+
+function cc() {
+    scp \
+        t:/proj/theophys/users/x_igomo/1605-hcpFe-isot/ch-stuff/fe_hcp_50_${1}_${2}/step1-initial-md/statplot.png \
+        /tmp/
+}

@@ -53,7 +53,7 @@
 
 ;; sound
 (xbindkey '(XF86AudioMute)
-   "amixer -- sset Master toggle")
+   "amixer -- sset Speaker toggle")
 
 (xbindkey '(XF86AudioRaiseVolume)
    "amixer -- sset Master playback 5dB+")

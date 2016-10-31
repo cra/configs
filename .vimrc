@@ -50,6 +50,9 @@ let g:pymode_rope_vim_completion = 0
 "(warning: must have timestamp in square brackets on both lines)
 map <f4> mzk0el"vy/\([\\|$\)<cr>jd/\([\\|$\)<cr>h"vp`zj
 
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! w !sudo tee > /dev/null %
+
 set laststatus=2
  
 "autocmd FileType tex setlocal spell spelllang=en,ru
