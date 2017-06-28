@@ -5,6 +5,7 @@ defbindings("WScreen", {
 
     kpress(META.."dollar", "named_scratchpad(_, 'scihandy')"),
     kpress(ALTMETA.."Shift+C", "named_scratchpad(_, 'chitchat')"),
+    kpress(ALTMETA.."Shift+M", "named_scratchpad(_, 'muzlo')"),
 
 })
 
