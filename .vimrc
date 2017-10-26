@@ -66,10 +66,17 @@ autocmd FileType python set tabstop=4
 autocmd FileType python set softtabstop=4
 autocmd FileType python set textwidth=80
 
+autocmd FileType javascript set shiftwidth=4
+autocmd FileType javascript set tabstop=4
+autocmd FileType javascript set softtabstop=4
+autocmd FileType javascript set textwidth=80
+
 autocmd FileType lisp set shiftwidth=4
 autocmd FileType lisp set tabstop=4
 autocmd FileType lisp set softtabstop=4
 autocmd FileType lisp set textwidth=80
+
+au BufReadPost *.html set syntax=htmldjango
 
 
 augroup resCur

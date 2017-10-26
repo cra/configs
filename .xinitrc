@@ -20,20 +20,10 @@ parcellite --no-icon &
 xpad --no-new &
 stalonetray &
 batterymon -n 40 -c 22 -e 'notify-send -u critical "Find a charger! QUICK"' &
-selfspy -c ~/.config/selfspy.conf &
 
-if [ $NOTION == 1 ]
-then
-#YOBA
-        hsetroot -fill ~/.wallpaper-transformer.jpg
-        exec dbus-launch &
-        ##dunst??
-        remind -z '-knotify-send -t 0 -u critical %s &' ~/.reminders &
+hsetroot -fill ~/.wallpaper-transformer.jpg
+ssh-agent notion
 
-        ssh-agent notion
-#YOBA
-else
-        hsetroot -fill .wallpaper_sips.jpg
-        ssh-agent openbox
-fi
-
+# Presentation mode
+#hsetroot -fill ~/.wallpaper-science.png
+#ssh-agent openbox

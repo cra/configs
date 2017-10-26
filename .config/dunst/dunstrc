@@ -220,6 +220,10 @@
     timeout = 0
         
 
+#[telega]
+     #appname = Telegram Desktop
+     #urgency = critical
+
 #[espeak]
 #    summary = "*"
 #    script = dunst_espeak.sh

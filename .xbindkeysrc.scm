@@ -21,7 +21,7 @@
    "xkb-switch -s dvp")
 
 (xbindkey '(Control alt d)
-   "xkb-switch -s dvp")
+   "xkb-switch -s 'us(dvp)'")
 
 ;; setxkbmap dvp,ru; xmodmap ~/.xmodmap;
 
@@ -32,7 +32,7 @@
    "xkb-switch -s us")
 
 (xbindkey '(Control alt v)
-   "xkb-switch -s se") ;_sv_dvorak")
+   "xkb-switch -s se_sv_dvorak") ;_sv_dvorak")
 
 (xbindkey '(XF86KbdBrightnessDown)
    "/bin/bash asus-kbd-backlight down")
@@ -59,15 +59,15 @@
    "amixer -- sset Master playback 5dB+")
 (xbindkey '(XF86AudioLowerVolume)
    "amixer -- sset Master playback 5dB-")
-(xbindkey '(Shift XF86AudioRaiseVolume)
-   "amixer -- sset PCM playback 5dB+")
-(xbindkey '(Shift XF86AudioLowerVolume)
-   "amixer -- sset PCM playback 5dB-")
+;(xbindkey '(Shift XF86AudioRaiseVolume)
+   ;"amixer -- sset PCM playback 5dB+")
+;(xbindkey '(Shift XF86AudioLowerVolume)
+   ;"amixer -- sset PCM playback 5dB-")
 
-(xbindkey '(Shift XF86AudioRaiseVolume)
-   "amixer -- sset PCM playback 5dB+")
-(xbindkey '(Shift XF86AudioLowerVolume)
-   "amixer -- sset PCM playback 5dB-")
+;(xbindkey '(Shift XF86AudioRaiseVolume)
+   ;"amixer -- sset PCM playback 5dB+")
+;(xbindkey '(Shift XF86AudioLowerVolume)
+   ;"amixer -- sset PCM playback 5dB-")
 
 ; cmus
 (xbindkey '(Mod2 XF86AudioPlay)

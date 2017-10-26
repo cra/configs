@@ -1,7 +1,7 @@
 !Xft.dpi: 96
 !URxvt*font: -*-terminus-medium-*-*-*-24-*-*-*-*-*-iso10646-1
-URxvt*font: xft:terminus:size=14
-!URxvt*font: xft:terminus:size=24
+!URxvt*font: xft:terminus:size=16
+URxvt*font: -*-terminus-medium-*-*-*-18-*-*-*-*-*-iso10646-1
 !xterm*VT100.utf8Fonts.font: -*-terminus-medium-*-*-*-17-120-100-100-*-*-iso10646-1
 xterm*font: -*-terminus-medium-*-*-*-16-*-*-*-*-*-iso10646-1
 URxvt*saveLines: 2048
@@ -22,7 +22,7 @@ gnuplot*persist: on
 ! my monitor dpi is 96: xdpyinfo | grep dots
 
 Xft.dpi:        96
-Xft.antialias:  false
+Xft.antialias:  true
 Xft.rgba:       rgb
 Xft.hinting:    true
 !Xft.hintstyle:  hintslight
