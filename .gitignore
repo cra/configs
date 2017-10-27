@@ -1,6 +1,11 @@
 *
 !.jupyter/custom/custom.js
 !.config/dunst/dunstrc
+!.notion/default-session--0/cfg_kludges.lua
+!.notion/default-session--0/cra_bindings.lua
+!.notion/default-session--0/cfg_notion.lua
+!.notion/default-session--0/cfg_notioncore.lua
+!.conkyrc
 !.gitignore
 !.xmodmap
 !.xinitrc.common

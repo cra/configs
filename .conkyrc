@@ -1,0 +1,17 @@
+out_to_x no
+background false
+cpu_avg_samples 2
+default_color white
+default_outline_color white
+default_shade_color white
+net_avg_samples 2
+no_buffers yes
+out_to_console yes
+out_to_stderr no
+extra_newline no
+update_interval 1.0
+uppercase no
+use_spacer none
+
+TEXT
+[Up: $uptime] [CPU: ${cpu cpu0}% ${cpubar cpu0} T: ${hwmon temp 1}C] [RAM: $mem/$memmax ${membar}] [${fs_free /home} free on /home; ${fs_free /} free on /] [${fs_used /tmp} used in /tmp] [WiFi ${wireless_essid} ${addr wlp2s0}. Qual: ${wireless_link_qual_perc wlp2s0}% Up: ${upspeed wlp2s0} Down:$color ${downspeed wlp2s0}]
